@@ -5,84 +5,100 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.movielists.MovieListActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <GridView
-            android:id="@+id/gridview"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:clipToPadding="false"
-            android:horizontalSpacing="10dp"
-            android:numColumns="2"
-            android:padding="16dp"
-            android:scrollbars="none"
-            android:stretchMode="columnWidth"
-            android:verticalSpacing="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/detail_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="top"
+            app:title="MovieBuff"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/layout_no_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="220dp"
-                android:layout_height="220dp"
-                android:src="@drawable/ic_no_data"/>
+            <GridView
+                android:id="@+id/gridview"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:clipToPadding="false"
+                android:horizontalSpacing="10dp"
+                android:numColumns="2"
+                android:padding="16dp"
+                android:scrollbars="none"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_refresh"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/layout_no_data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/bg_btn"
-                android:drawablePadding="12dp"
-                android:text="Refresh"
-                android:paddingHorizontal="16dp"
-                android:layout_marginTop="32dp"
-                android:textColor="@color/white"
-                android:drawableRight="@drawable/ic_refresh_white"
-                android:drawableEnd="@drawable/ic_refresh_white" />
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="220dp"
+                    android:layout_height="220dp"
+                    android:src="@drawable/ic_no_data"/>
 
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/loading_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            android:layout_marginTop="15dp"
-            android:orientation="vertical"
-            app:duration="800">
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_refresh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/bg_btn"
+                    android:drawablePadding="12dp"
+                    android:text="Refresh"
+                    android:paddingHorizontal="16dp"
+                    android:layout_marginTop="32dp"
+                    android:textColor="@color/white"
+                    android:drawableRight="@drawable/ic_refresh_white"
+                    android:drawableEnd="@drawable/ic_refresh_white" />
 
-            <!-- Adding 7 rows of placeholders -->
-            <LinearLayout
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/loading_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <include layout="@layout/data_placeholder_layout" />
-                <include layout="@layout/data_placeholder_layout" />
-                <include layout="@layout/data_placeholder_layout" />
-                <include layout="@layout/data_placeholder_layout" />
-                <include layout="@layout/data_placeholder_layout" />
-                <include layout="@layout/data_placeholder_layout" />
-                <include layout="@layout/data_placeholder_layout" />
-            </LinearLayout>
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical"
+                app:duration="800">
 
-        </com.facebook.shimmer.ShimmerFrameLayout>
+                <!-- Adding 7 rows of placeholders -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <include layout="@layout/data_placeholder_layout" />
+                    <include layout="@layout/data_placeholder_layout" />
+                    <include layout="@layout/data_placeholder_layout" />
+                    <include layout="@layout/data_placeholder_layout" />
+                    <include layout="@layout/data_placeholder_layout" />
+                    <include layout="@layout/data_placeholder_layout" />
+                    <include layout="@layout/data_placeholder_layout" />
+                </LinearLayout>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
 </layout>

@@ -58,7 +58,8 @@ class NetworkModule(private val application: Application) {
                 val maxStale = 60 * 60 * 24 * 28 // tolerate 4-weeks stale \
                 val request = chain.request()
                     .newBuilder()
-                    .header("Cache-Control", "public, only-if-cached, max-stale=$maxStale")
+                    .removeHeader("Pragma")
+                    .header("Cache-Control", "public, max-stale=$maxStale")
                     .build()
                 return@addNetworkInterceptor chain.proceed(request)
             }

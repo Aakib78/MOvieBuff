@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
+import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -14,9 +15,7 @@ import com.aakib.saifi.moviebuff.data.config.API_KEY
 import com.aakib.saifi.moviebuff.databinding.ActivityMovieListBinding
 import com.aakib.saifi.moviebuff.model.Movie
 import com.aakib.saifi.moviebuff.ui.Router
-import com.aakib.saifi.moviebuff.utils.hide
-import com.aakib.saifi.moviebuff.utils.show
-import com.aakib.saifi.moviebuff.utils.viewModelProvider
+import com.aakib.saifi.moviebuff.utils.*
 import javax.inject.Inject
 
 class MovieListActivity : AppCompatActivity() {
@@ -55,54 +54,64 @@ class MovieListActivity : AppCompatActivity() {
         moviesList=ArrayList()
         adapter = MoviesGridAdapter(this)
         binding.gridview.adapter = adapter
-        if (this.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            binding.gridview.numColumns=3
-        }else {
-            binding.gridview.numColumns=2
-        }
-
         binding.btnRefresh.setOnClickListener {
             fetchData()
         }
+
+        binding.gridview.onItemClickListener=AdapterView.OnItemClickListener{ _, _, position, _ ->
+            router.showDetailActivity(this, moviesList?.get(position)!!)
+        }
+
         fetchData()
     }
 
     private fun fetchData() {
-        binding.layoutNoData.hide()
-        binding.gridview.hide()
-        binding.loadingView.show()
+        toggleLayoutVisibility(Response.Loading)
         getViewModel().getAllMovies("popular", API_KEY)
     }
 
     private fun initObserver() {
         getViewModel().resultMovies.observe(this, Observer {
             if (!it.movieList.isNullOrEmpty()){
-                binding.layoutNoData.hide()
-                binding.gridview.show()
-                binding.loadingView.hide()
+                Log.d(TAG, "initObserver: $it")
                 moviesList=it.movieList
+                toggleLayoutVisibility(Response.Success)
                 populateMoviesRecyclerView(moviesList!!)
             }else {
-                binding.layoutNoData.show()
-                binding.gridview.hide()
-                binding.loadingView.hide()
+                toggleLayoutVisibility(Response.Error)
             }
-
         })
 
         getViewModel().errortMovies.observe(this, Observer {
             binding.loadingView.stopShimmerAnimation()
-            binding.layoutNoData.show()
-            binding.gridview.hide()
-            binding.loadingView.hide()
+            Log.d(TAG, "initObserver: $it")
+            toggleLayoutVisibility(Response.Error)
         })
 
         getViewModel().loadingMovies.observe(this, Observer {
             binding.loadingView.startShimmerAnimation()
-            binding.layoutNoData.hide()
-            binding.gridview.hide()
-            binding.loadingView.show()
+            toggleLayoutVisibility(Response.Loading)
         })
+    }
+
+    private fun toggleLayoutVisibility(response: Response){
+        when(response){
+            Response.Success->{
+                binding.layoutNoData.hide()
+                binding.gridview.show()
+                binding.loadingView.hide()
+            }
+            Response.Error->{
+                binding.layoutNoData.show()
+                binding.gridview.hide()
+                binding.loadingView.hide()
+            }
+            Response.Loading->{
+                binding.layoutNoData.hide()
+                binding.gridview.hide()
+                binding.loadingView.show()
+            }
+        }
     }
 
     private fun populateMoviesRecyclerView(movieList: MutableList<Movie>) {

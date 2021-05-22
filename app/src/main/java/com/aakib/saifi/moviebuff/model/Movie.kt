@@ -1,6 +1,7 @@
 package com.aakib.saifi.moviebuff.model
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 /**
  * Created by Aakib
@@ -51,4 +52,4 @@ data class Movie(
 
     @SerializedName("release_date")
     val releaseDate: String
-)
+):Serializable

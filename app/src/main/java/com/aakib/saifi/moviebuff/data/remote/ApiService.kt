@@ -13,7 +13,7 @@ import retrofit2.http.Query
 
 interface ApiService {
 
-    @GET("/3/movie/{category}")
+    @GET("3/movie/{category}")
     suspend fun getAllMovies(
         @Path("category") category: String,
         @Query("api_key") apiKey: String?

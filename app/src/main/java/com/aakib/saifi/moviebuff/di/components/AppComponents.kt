@@ -3,6 +3,7 @@ package com.aakib.saifi.moviebuff.di.components
 import android.content.Context
 import com.aakib.saifi.moviebuff.ui.movielists.MovieListActivity
 import com.aakib.saifi.moviebuff.di.modules.*
+import com.aakib.saifi.moviebuff.ui.moviedetail.MovieDetailActivity
 import dagger.Component
 import retrofit2.Retrofit
 import javax.inject.Singleton
@@ -29,5 +30,6 @@ interface AppComponents {
 
     fun retrofit(): Retrofit
 
-    fun inject(mainActivity: MovieListActivity)
+    fun inject(movieListActivity: MovieListActivity)
+    fun inject(movieDetailActivity: MovieDetailActivity)
 }
